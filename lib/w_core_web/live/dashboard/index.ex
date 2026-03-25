@@ -57,7 +57,7 @@ defmodule WCoreWeb.DashboardLive do
 
   def render(assigns) do
     ~H"""
-    <div class="wc-dashboard">
+    <main class="wc-dashboard">
 
       <%!-- HEADER --%>
       <header class="wc-header">
@@ -72,7 +72,7 @@ defmodule WCoreWeb.DashboardLive do
       </header>
 
       <%!-- RESUMO --%>
-      <section class="wc-summary">
+      <section class="wc-summary" aria-label="Resumo do Status das Máquinas">
         <.summary_card label="Operando"   count={@summary.running}     status={:running} />
         <.summary_card label="Ocioso"     count={@summary.idle}        status={:idle} />
         <.summary_card label="Erro"       count={@summary.error}       status={:error} />
@@ -88,16 +88,19 @@ defmodule WCoreWeb.DashboardLive do
       <% end %>
 
       <%!-- GRID DE MÁQUINAS --%>
-      <section class="wc-grid">
+      <ul class="wc-grid">
         <%= for machine <- @machines do %>
+        <li role="listitem">
           <.machine_card
             machine={machine}
             highlighted={machine.id == @highlighted_id}
           />
+        </li>
         <% end %>
-      </section>
 
-    </div>
+      </ul>
+
+    </main>
     """
   end
 
