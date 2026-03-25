@@ -127,6 +127,10 @@ body {
   font-family: "Inter", system-ui, sans-serif;
 }
 
+html,
+body {
+  min-height: 100vh;
+}
 /* ── BADGE ───────────────────────────────────── */
 .wc-badge {
   display: inline-flex;
