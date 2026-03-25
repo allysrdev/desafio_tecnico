@@ -48,6 +48,7 @@ defmodule WCoreWeb do
     end
   end
 
+  @spec live_view() :: {:__block__, [], [{:__block__, [], [...]} | {:use, [...], [...]}, ...]}
   def live_view do
     quote do
       use Phoenix.LiveView
@@ -86,6 +87,7 @@ defmodule WCoreWeb do
       import Phoenix.HTML
       # Core UI components
       import WCoreWeb.CoreComponents
+      import WCoreWeb.DesignSystem
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

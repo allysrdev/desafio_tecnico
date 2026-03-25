@@ -21,20 +21,23 @@ defmodule WCoreWeb.DashboardLive do
   end
 
   def render(assigns) do
-    ~H"""
-    <div class="p-8">
-      <h1 class="text-2xl font-bold">W-Core — Motor de Estado</h1>
-
-      <div class="mt-6 grid gap-4">
-        <%= for machine <- @machines do %>
-          <div class="border rounded p-4">
-            <p class="font-semibold"><%= machine.name %></p>
-            <p class="text-sm text-gray-500">Status: <%= machine.status %></p>
-            <p class="text-sm text-gray-500">Temp: <%= machine.temperature %>°C</p>
-          </div>
-        <% end %>
-      </div>
+  ~H"""
+  <div class="p-8 max-w-5xl mx-auto">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold">W-Core</h1>
+      <p style="color: var(--color-muted)" class="mt-1">
+        Motor de Estado em Tempo Real — <%= length(@machines) %> máquinas monitoradas
+      </p>
     </div>
-    """
-  end
+
+    <.alert type={:warning} message="Sistema em modo de simulação — dados gerados automaticamente" />
+
+    <div class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(380px, 1fr))">
+      <%= for machine <- @machines do %>
+        <.machine_card machine={machine} />
+      <% end %>
+    </div>
+  </div>
+  """
+end
 end
