@@ -23,7 +23,7 @@ defmodule WCoreWeb.DesignSystem do
   defp badge_label(:error),       do: "Erro"
   defp badge_label(:maintenance), do: "Manutenção"
 
-  attr :class, :string, default: ""
+  attr :class, :list, default: []
   slot :inner_block, required: true
 
   def card(assigns) do

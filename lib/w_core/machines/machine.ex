@@ -12,10 +12,11 @@ defmodule WCore.Machines.Machine do
     status: status(),
     temperature: float(),
     uptime: integer(),
-    last_updated: DateTime.t()
+    last_updated: DateTime.t(),
+    total_events_processed: integer(),
   }
 
-  defstruct [:id, :name, :status, :temperature, :uptime, :last_updated]
+  defstruct [:id, :name, :status, :temperature, :uptime, :last_updated, total_events_processed: 0]
 
   @doc "Retorna lista inicial de máquinas mockadas"
   def initial_machines do
