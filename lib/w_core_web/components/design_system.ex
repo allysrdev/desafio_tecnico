@@ -46,26 +46,31 @@ defmodule WCoreWeb.DesignSystem do
     """
   end
 
-  attr :machine, :map, required: true
+  attr :machine,     :map,     required: true
+attr :highlighted, :boolean, default: false
 
-  def machine_card(assigns) do
-    ~H"""
-    <.card class={["wc-machine-card", machine_card_class(@machine.status)]}>
-      <div class="wc-machine-card-header">
-        <div>
-          <p class="wc-machine-card-id"><%= @machine.id %></p>
-          <h3 class="wc-machine-card-name"><%= @machine.name %></h3>
-        </div>
-        <.badge status={@machine.status} />
+def machine_card(assigns) do
+  ~H"""
+  <.card class={[
+    "wc-machine-card",
+    machine_card_class(@machine.status),
+    @highlighted && "wc-machine-card-highlight"
+  ]}>
+    <div class="wc-machine-card-header">
+      <div>
+        <p class="wc-machine-card-id"><%= @machine.id %></p>
+        <h3 class="wc-machine-card-name"><%= @machine.name %></h3>
       </div>
-      <div class="wc-machine-card-stats">
-        <.stat label="Temperatura" value={"#{@machine.temperature}°C"} />
-        <.stat label="Uptime"      value={format_uptime(@machine.uptime)} />
-        <.stat label="Atualizado"  value={format_time(@machine.last_updated)} />
-      </div>
-    </.card>
-    """
-  end
+      <.badge status={@machine.status} />
+    </div>
+    <div class="wc-machine-card-stats">
+      <.stat label="Temperatura" value={"#{@machine.temperature}°C"} />
+      <.stat label="Uptime"      value={format_uptime(@machine.uptime)} />
+      <.stat label="Atualizado"  value={format_time(@machine.last_updated)} />
+    </div>
+  </.card>
+  """
+end
 
   defp machine_card_class(:error), do: "wc-machine-card-error"
   defp machine_card_class(_),      do: ""

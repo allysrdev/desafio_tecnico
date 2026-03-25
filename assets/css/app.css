@@ -389,3 +389,23 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1rem;
 }
+
+/* ── HIGHLIGHT ───────────────────────────────── */
+.wc-machine-card-highlight {
+  border-color: #facc15 !important;
+  box-shadow:
+    0 0 0 1px #facc1533,
+    0 0 16px #facc1522;
+  animation: wc-highlight-in 0.2s ease;
+}
+
+@keyframes wc-highlight-in {
+  from {
+    box-shadow: 0 0 0 3px #facc1566;
+  }
+  to {
+    box-shadow:
+      0 0 0 1px #facc1533,
+      0 0 16px #facc1522;
+  }
+}

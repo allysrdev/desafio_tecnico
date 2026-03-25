@@ -13,19 +13,42 @@ defmodule WCoreWeb.DashboardLive do
     {:ok, assign(socket,
       machines: machines,
       summary: build_summary(machines),
+      highlighted_id: nil,
       page_title: "W-Core Dashboard"
     )}
   end
 
+  # Recebe atualização do PubSub
   def handle_info({:machines_updated, machines}, socket) do
+    # Descobre qual máquina mudou comparando com o estado anterior
+    highlighted_id = find_changed_machine(socket.assigns.machines, machines)
+
+    # Agenda a remoção do highlight após 1.5s
+    if highlighted_id do
+      Process.send_after(self(), :clear_highlight, 1_500)
+    end
+
     {:noreply, assign(socket,
       machines: machines,
-      summary: build_summary(machines)
+      summary: build_summary(machines),
+      highlighted_id: highlighted_id
     )}
   end
 
-  # Calcula quantas máquinas existem em cada status
-  # Equivalente a um useMemo no React
+  # Limpa o highlight após o delay
+  def handle_info(:clear_highlight, socket) do
+    {:noreply, assign(socket, highlighted_id: nil)}
+  end
+
+  defp find_changed_machine(old_machines, new_machines) do
+    # Compara status de cada máquina — retorna o id da que mudou
+    old_map = Map.new(old_machines, &{&1.id, &1.status})
+
+    Enum.find_value(new_machines, fn machine ->
+      if old_map[machine.id] != machine.status, do: machine.id
+    end)
+  end
+
   defp build_summary(machines) do
     Enum.reduce(machines, %{running: 0, idle: 0, error: 0, maintenance: 0}, fn machine, acc ->
       Map.update!(acc, machine.status, &(&1 + 1))
@@ -67,7 +90,10 @@ defmodule WCoreWeb.DashboardLive do
       <%!-- GRID DE MÁQUINAS --%>
       <section class="wc-grid">
         <%= for machine <- @machines do %>
-          <.machine_card machine={machine} />
+          <.machine_card
+            machine={machine}
+            highlighted={machine.id == @highlighted_id}
+          />
         <% end %>
       </section>
 
@@ -75,12 +101,9 @@ defmodule WCoreWeb.DashboardLive do
     """
   end
 
-  # ─── COMPONENTE INTERNO ──────────────────────────────────
-  # Componente usado só nessa LiveView — não precisa ir pro DesignSystem
-
-  attr :label,  :string, required: true
+  attr :label,  :string,  required: true
   attr :count,  :integer, required: true
-  attr :status, :atom, required: true
+  attr :status, :atom,    required: true
 
   defp summary_card(assigns) do
     ~H"""
