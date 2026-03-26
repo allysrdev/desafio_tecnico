@@ -2,7 +2,7 @@
 
 ## Contexto
 
-- Seguindo decisão de mockar injeção de dados
+- Seguindo decisão de mockar injeção de dados com ajuda do agente
 
 ## O que foi implementado
 
