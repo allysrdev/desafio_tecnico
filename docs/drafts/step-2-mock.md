@@ -15,18 +15,18 @@
 
 [Simulator (GenServer)]
 |
-| Process.send_after(self(), :tick, 2000)
+| Process.send_after(self(), :tick, 2000) <!-- Equivalente ao SetInterval no React. (A cada 2 segundos) --->
 v
 handle_info(:tick)
 |
-|-- atualiza máquina aleatória na lista de estado interno
+|-- atualiza máquina aleatória na lista de estado interno <!-- Aqui simula a mudança de estado -->
 |
-|-- Phoenix.PubSub.broadcast("machines:updates", {:machines_updated, machines})
+|-- Phoenix.PubSub.broadcast("machines:updates", {:machines_updated, machines}) <!-- Aqui publica a mudança de estado -->
 |
 v
 [DashboardLive (todos os sockets inscritos)]
 |
-handle_info({:machines_updated, machines})
+handle_info({:machines_updated, machines}) <!-- Aqui recebe a mudança de estado previamente e executa lógica de highlighting -->
 |
 |-- find_changed_machine/2 → descobre qual mudou
 |-- assign(machines, summary, highlighted_id)

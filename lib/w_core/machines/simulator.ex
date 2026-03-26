@@ -87,10 +87,15 @@ end
 
   # ─── Funções Privadas ──────────────────────────────────────
 
+
+  # Agenda um Tick
+
   defp schedule_tick do
     # Equivalente ao setTimeout — manda mensagem pra si mesmo
     Process.send_after(self(), :tick, @interval)
   end
+
+  # Simula atualização de estado em uma máquina aleatória
 
   defp update_random_machine(machines) do
     # Sorteia índice aleatório

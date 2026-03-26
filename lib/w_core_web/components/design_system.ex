@@ -5,6 +5,11 @@ defmodule WCoreWeb.DesignSystem do
 Módulo que contém os componentes reutilizáveis do Design System W-Core.
 Define elementos básicos como badges, cards, estatísticas e alertas,
 promovendo consistência visual e funcionalidade.
+
+> Um passo a tomar futuramente poderia ser a separação de ui puro de domínio, ex:
+components/ui -> badge, stat, alert, card
+components/machine  -> machine_card, format helpers
+
 """
   use Phoenix.Component
 
@@ -21,6 +26,16 @@ promovendo consistência visual e funcionalidade.
   attr :status, :atom, required: true,
     values: [:running, :idle, :error, :maintenance],
     doc: "O status da máquina que define cores e rótulos"
+
+    # Interessante forma de declarar atributos. Comparando com React + TypeScript, seria algo próximo de definir uma interface
+    # com um union type (tipo enum):
+    #
+    # type Status = "running" | "idle" | "error" | "maintenance";
+    #
+    # interface BadgeProps {
+    #   status: Status;
+    # }
+
 
   def badge(assigns) do
     ~H"""

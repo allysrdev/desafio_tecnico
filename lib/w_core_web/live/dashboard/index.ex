@@ -3,6 +3,7 @@ defmodule WCoreWeb.DashboardLive do
 
   alias WCore.Machines.Simulator
 
+  @spec mount(any(), any(), Phoenix.LiveView.Socket.t()) :: {:ok, any()}
   def mount(_params, _session, socket) do
     if connected?(socket) do
       Phoenix.PubSub.subscribe(WCore.PubSub, "machines:updates")
@@ -17,6 +18,7 @@ defmodule WCoreWeb.DashboardLive do
       page_title: "W-Core Dashboard"
     )}
   end
+
 
   # Recebe atualização do PubSub
   def handle_info({:machines_updated, machines}, socket) do
@@ -50,11 +52,13 @@ defmodule WCoreWeb.DashboardLive do
   end
 
   defp build_summary(machines) do
+  #  Transforma a lista de máquinas em um objeto com a contagem de cada status
     Enum.reduce(machines, %{running: 0, idle: 0, error: 0, maintenance: 0}, fn machine, acc ->
       Map.update!(acc, machine.status, &(&1 + 1))
     end)
   end
 
+  @spec render(any()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <main class="wc-dashboard">
@@ -65,7 +69,7 @@ defmodule WCoreWeb.DashboardLive do
           <h1 class="wc-header-title">W-Core</h1>
           <p class="wc-header-subtitle">Motor de Estado em Tempo Real</p>
         </div>
-        <div class="wc-header-live">
+        <div class="wc-header-live" role="status" aria-live="polite">
           <span class="wc-live-dot"></span>
           <span>Live</span>
         </div>
