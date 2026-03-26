@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Neste passo, o objetivo foi provar a resiliência do sistema sob carga extrema. Mesmo com a infraestrutura de backend (SQLite/ETS) mockada para focar no Front-end, é fundamental garantir que o motor de estado em tempo real (`Simulator`) seja capaz de processar um volume massivo de eventos concorrentes sem perda de dados ou condições de corrida (_race conditions_).
+Neste passo, o objetivo foi provar a resiliência do sistema sob carga extrema. Mesmo com a infraestrutura de backend (SQLite/ETS) mockada para focar no Front-end, é fundamental garantir que o motor de estado em tempo real (`Simulator`) seja capaz de processar um volume massivo de eventos concorrentes sem perda de dados ou condições de corrida (_race conditions_). Com ajuda do agente, construí o cenário de teste.
 
 ## O Desafio da Concorrência
 
