@@ -78,20 +78,20 @@ Para um dev Front-end, entender o fluxo de dados é essencial. Este diagrama mos
 
 ```mermaid
 graph TD
-    subgraph Cliente (Navegador)
-        A[Usuário] --> B(Interface LiveView)
+    subgraph Cliente_Navegador
+        A[Usuario] --> B[Interface LiveView]
     end
 
-    subgraph Servidor (Phoenix LiveView App)
-        C(Phoenix LiveView) --> D(Phoenix PubSub)
-        E(WCore.Machines.Simulator) --> D
+    subgraph Servidor_Phoenix_LiveView_App
+        C[Phoenix LiveView] --> D[Phoenix PubSub]
+        E[WCore.Machines.Simulator] --> D
     end
 
-    B -- Conexão WebSocket --> C
-    C -- Assina atualizações --> D
-    E -- Atualiza dados e transmite --> D
-    D -- Envia atualizações --> C
-    C -- Renderiza e envia diff HTML --> B
+    B -- WebSocket --> C
+    C -- Assina atualizacoes --> D
+    E -- Publica eventos --> D
+    D -- Notifica --> C
+    C -- Envia diff HTML --> B
 ```
 
 ### Explicação do Fluxo:
