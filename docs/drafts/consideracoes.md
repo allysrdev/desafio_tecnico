@@ -18,7 +18,7 @@ Já em elixir:
 
 ```elixir
 def exemplo() do
-
+  IO.puts("Hello, World!")
 end
 ```
 
